@@ -1,0 +1,75 @@
+<?php echo $this->doctype(); ?>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php $this->headTitle('西游迹DIY')->setAutoEscape(true); ?>
+        <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
+        <meta name="title" content="西游迹旅行，创意出国游-xiyouus.com">
+        <meta name="description" content="西游迹旅行网（xiyouus.com），隶属于美国Global Traveler旅行集团，专注于自由创意的出国旅行，让您的异国之旅不再单调。西游迹提供的特色服务包括定制自由行、超值跟团游、有机农场工作换食宿、租车自驾游、邮轮滑翔跳伞射击等深度游玩项目。">
+        <meta name="author" content="西游迹旅行网-xiyouus.com">
+        <meta name="keywords" content="西游迹旅行,美国旅游,美国自助游,美国旅行公司,黄石公园旅游,美国当地华人旅行">
+        <meta name="360-site-verification" content="9420c19bc751c73578ef4fd218c63fca" />
+        <meta property="qc:admins" content="551357352175536375" />
+
+        <!-- Le styles -->
+        <?php
+        echo $this->headLink(array('rel' => 'shortcut icon', 'href' => 'http://cdn.xiyouus.com/img/favicon.png'))
+                ->prependStylesheet('/css/product/diy.css')
+                ->prependStylesheet('/style/style.css')
+                ->prependStylesheet('http://cdn.xiyouus.com/style/common.css')
+                ->prependStylesheet('http://cdn.xiyouus.com/css/bootstrap.min.css');
+        ?>
+
+        <!-- Scripts -->
+        <?php
+        echo $this->headScript()->prependFile('http://cdn.xiyouus.com/js/html5shiv.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                ->prependFile('/js/product/productdiy.js', 'text/javascript')
+                ->prependFile('http://cdn.xiyouus.com/js/product/search.js', 'text/javascript')
+                ->prependFile('http://cdn.xiyouus.com/js/common.js', 'text/javascript')
+                ->prependFile('http://cdn.xiyouus.com/js/bootstrap.min.js')
+                ->prependFile('http://cdn.xiyouus.com/js/jquery.min.js');
+        ?>
+
+    </head>
+    <body>
+        <!--navbar-->
+        <div class="dao">
+            <div class="hang clearfix">
+                <div class="logo pull-left"><a href="/"><img src="http://cdn.xiyouus.com/img/logo.png" /></a></div>
+                <ul class="shou pull-left">
+                    <li><a href="/">首页</a></li>
+                    <li class="beimei"><a>北美旅游</a></li>
+                </ul>
+                <?php require __DIR__ . "../../../../../Libraries/view/include/nav_bar_user.php" ?>
+            </div>
+        </div>
+        <!--navbar-->
+        <!--main-->
+        <div class="wai">
+            <div class="zhong clearfix">
+                <?php echo $this->content; ?>
+            </div>
+        </div>
+        <!--main-->
+        <!--footer-->
+        <?php require __DIR__ . '../../../../../Libraries/view/include/footer.php'; ?>
+        <!--footer-->
+        <?php echo $this->inlineScript() ?>
+        <script>
+            var step = 0;
+
+            function showFilterStep(obj, el_index) {
+                $(obj).parent().find('li').removeClass('on');
+                $(obj).addClass('on');
+                $(obj).parent().parent().parent().find(".jue").hide();
+                $(obj).parent().parent().parent().find(".jue").eq(el_index).show();
+                step = el_index;
+            }
+
+            $('.di li').click(function() {
+                var el_index = $(this).parent().find('li').index(this);
+                showFilterStep(this, el_index);
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,110 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+    font-family:"微软雅黑,宋体";
+    background:#f0f0f0;
+}
+
+.mainContainer{min-height: 800px;}
+
+.xiyou_green{
+    color:#43b3cb;
+}
+
+.xiyou_tag_gray{
+    color:#898989;
+}
+
+.active_botton{background:#ff6600;}
+.active_botton a{color:#fefffe;}
+
+.zong_row{
+    width:100%;
+    background:#FFFFFF;
+}
+
+
+.fl{
+    float:left;
+}
+
+.fr{
+    float:right;
+}
+
+* {
+	outline:none !important;
+	-moz-outline: none !important;
+	margin: 0;
+	padding: 0;
+}
+
+.clear {
+	clear: both !important;
+}
+
+.hidden {
+	display: none !important;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.table td.text-right, .table th.text-right
+{
+	text-align: right;
+}
+
+.table td.text-center, .table th.text-center
+{
+	text-align: center;
+}
+
+/* loading bar */
+#operatingDialog div[name="loadingDiv"] > div[name="loadingBar"]
+{
+	width:220px;
+	height:19px;
+	/*background-image: url(img/ajax-loading.gif);*/
+	background-position:0 0;
+}
+
+/* Layout */
+#account-bar > a > img
+{
+	width: 25px;
+	height: 25px;
+}
+
+.table-caption
+{
+	padding: 4px;
+	width: 50%;
+}
+
+.horizontal-divider
+{
+	height: 0px;
+	border-bottom: 2px solid #faebcc;	
+}
+
+#navbar > ul > li
+{
+	display: none;
+}
+
+.mouse_pointer
+{
+	cursor: pointer;
+}
+
+footer
+{
+	text-align: center;
+}
+
+footer > p
+{
+	font-size: 0.8em;
+}

@@ -1,0 +1,489 @@
+<!--<div class="left_content">
+    <div class="col-md-12">
+        <div id="filter" class="filter_div row">
+            the filter form
+            <div id="region" class="filter_row">
+                <label class="filter_label">游玩地区 :</label><a class="filter_selectable" href="/product/query/list/1?region=0">不限</a>
+                <a class="filter_opt" href="/product/query/list/1?region=2">美东</a>
+                <a class="filter_opt" href="/product/query/list/1?region=3">美西</a>
+                <a class="filter_opt" href="/product/query/list/1?region=4">夏威夷</a>
+                <a class="filter_opt" href="/product/query/list/1?region=5">黄石公园</a>                              
+            </div>
+
+<?php
+//TODO highlight user selected buttons and enable unselect
+//            $display_filter_order = array('includedPlace', 'startCity', 'endCity', 'type', 'special', 'promo');
+//            $filter_tranlation = $filter_config['zh'];
+//            $filter_label_tranlation = $filter_tranlation['filter_label'];
+//
+//            foreach ($display_filter_order as $key) {
+//                echo '<div class="filter_opts">';
+//                echo '<label class="filter_label">' . htmlspecialchars($filter_label_tranlation[$key]);
+//                echo ' :</label>';
+//                if ($key === 'includedPlace' || $key === 'startCity' || $key === 'endCity') {
+//                    $filter_opt_translation = $filter_tranlation['place'];
+//                } else {
+//                    $filter_opt_translation = $filter_tranlation[$key];
+//                }
+//
+//                $remaining_filter = $remaining_opts[$key];
+//                if (is_array($remaining_filter)) {
+//                    foreach ($remaining_filter as $one_filter_opt) {
+//                        echo "<a class='filter_opt' " . 'onclick="filter_select(' . "'" . $key . "'" . ',' . "'" . $one_filter_opt . "'" . ')">'
+//                        . $filter_opt_translation[$one_filter_opt]
+//                        . "</a>\n";
+//                    }
+//                } else {
+//                    echo "<a class='filter_opt' " . 'onclick="filter_select(' . "'" . $key . "'" . ',' . "'" . $remaining_filter . "'" . ')">'
+//                    . $filter_opt_translation[$remaining_filter]
+//                    . "</a>\n";
+//                }
+//                echo '</div>';
+//            }
+?>
+        </div>
+
+        
+    </div>  
+</div>-->
+
+<div class="zuo pull-left">
+    <div class="zong">
+        <div class="tou">
+            <div class="ziran">自然景点</div>
+            <div class="jingdian">
+                <input name="" type="text" placeholder='输入景点' class="jing" />
+                <input type="submit" value=" " class="fangda" />
+            </div>
+        </div>	
+        <div class="qie">
+            <div class="sui">
+                <ul class="list-unstyled di">
+                    <li>
+                        <div class="yi"><a href="">第一步：时间</a></div>
+                    </li>
+                    <li>
+                        <div class="er"><a href="">第二步：区域</a></div>
+                    </li>
+                    <li>
+                        <div class="san"><a href="">第三步：起止</a></div>
+                    </li>
+                    <li>
+                        <div class="si"><a href="">第四步：线路</a></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="bian">
+                <ul class="jue">
+                    <li>
+                        <div class="youxi clearfix">
+                            <div class="xi pull-left">出游时间:</div>
+                            <ul class="shi pull-right">
+                                <li class="buxian"><a href="">不限</a></li>
+                                <li><a href="">一月</a></li>
+                                <li><a href="">二月</a></li>
+                                <li><a href="">三月</a></li>
+                                <li><a href="">四月</a></li>
+                                <li><a href="">五月</a></li>
+                                <li><a href="">六月</a></li>
+                                <li><a href="">七月</a></li>
+                                <li><a href="">八月</a></li>
+                                <li><a href="">九月</a></li>
+                                <li><a href="">十月</a></li>
+                                <li><a href="">十一月</a></li>
+                                <li><a href="">十二月</a></li>
+                            </ul>	
+                        </div>
+                        <div class="youxi clearfix">
+                            <div class="xi pull-left">出游天数:</div>
+                            <ul class="shi pull-right">
+                                <li class="buxian"><a href="">不限</a></li>
+                                <li><a href="">半天</a></li>
+                                <li><a href="">一天</a></li>
+                                <li><a href="">2-3天</a></li>
+                                <li><a href="">4-6天</a></li>
+                                <li><a href="">7-9天</a></li>
+                                <li><a href="">10天以上</a></li>
+                            </ul>	
+                        </div>
+                    </li>
+                </ul>
+                <ul class="jue" style=" display:none;">
+                    <li>
+                        <div class="youxi clearfix">
+                            <div class="xi pull-left">游玩区域:</div>
+                            <ul class="shi pull-right">
+                                <li class="buxian"><a href="">不限</a></li>
+                                <li><a href="">美东</a></li>
+                                <li><a href="">美西</a></li>
+                                <li><a href="">夏威夷</a></li>
+                                <li><a href="">黄石公园</a></li>
+                                <li><a href="">阿拉斯加</a></li>
+                            </ul>	
+                        </div>
+                    </li>
+                </ul>
+                <ul class="jue" style=" display:none;">
+                    <li>
+                        <?php
+                        //TODO highlight user selected buttons and enable unselect
+                        $filter_tranlation = $filter_config['zh'];
+                        $filter_label_tranlation = $filter_tranlation['filter_label'];
+                        $display_filter_order = array('startCity', 'endCity');
+
+                        foreach ($display_filter_order as $key) {
+                            $selectedOption = $product_list->getParameter($key);
+                            if (!is_array($selectedOption)) {
+                                $selectedOption = array($selectedOption);
+                            }
+
+                            echo '<div class="youxi clearfix">';
+                            echo '<div class="xi pull-left">' . htmlspecialchars($filter_label_tranlation[$key]);
+                            echo ' :</div>';
+                            echo '<ul class="shi pull-right">';
+
+                            if ($key === 'includedPlace' || $key === 'startCity' || $key === 'endCity') {
+                                $filter_opt_translation = $filter_tranlation['place'];
+                            } else {
+                                $filter_opt_translation = $filter_tranlation[$key];
+                            }
+
+                            $remaining_filter = $remaining_opts[$key];
+                            if (is_array($remaining_filter)) {
+                                foreach ($remaining_filter as $one_filter_opt) {
+                                    echo "<li";
+                                    if (in_array($one_filter_opt, $selectedOption)) {
+                                        //height light here
+                                        echo ' class="buxian"';
+                                    }
+
+                                    echo '><a onclick="filter_select(' . "'" . $key . "'" . ',' . "'" . $one_filter_opt . "'" . ')">'
+                                    . $filter_opt_translation[$one_filter_opt]
+                                    . "</a></li>\n";
+                                }
+                            } else {
+                                echo "<li";
+                                if (in_array($one_filter_opt, $selectedOption)) {
+                                    //height light here
+                                    echo ' class="buxian"';
+                                }
+
+                                echo '><a onclick="filter_select(' . "'" . $key . "'" . ',' . "'" . $remaining_filter . "'" . ')">'
+                                . $filter_opt_translation[$remaining_filter]
+                                . "</a></li>\n";
+                            }
+                            echo '</ul></div>';
+                        }
+                        ?>
+                    </li>
+                </ul>
+                <ul class="jue" style=" display:none;">
+                    <li>
+                        <?php
+                        //TODO highlight user selected buttons and enable unselect
+//                        $filter_tranlation = $filter_config['zh'];
+//                        $filter_label_tranlation = $filter_tranlation['filter_label'];
+                        $display_filter_order = array('includedPlace');
+
+                        foreach ($display_filter_order as $key) {
+                            $selectedOption = $product_list->getParameter($key);
+                            if (!is_array($selectedOption)) {
+                                $selectedOption = array($selectedOption);
+                            }
+
+                            echo '<div class="youxi clearfix">';
+                            echo '<div class="xi pull-left">' . htmlspecialchars($filter_label_tranlation[$key]);
+                            echo ' :</div>';
+                            echo '<ul class="shi pull-right">';
+
+                            if ($key === 'includedPlace' || $key === 'startCity' || $key === 'endCity') {
+                                $filter_opt_translation = $filter_tranlation['place'];
+                            } else {
+                                $filter_opt_translation = $filter_tranlation[$key];
+                            }
+
+                            $remaining_filter = $remaining_opts[$key];
+                            if (is_array($remaining_filter)) {
+                                foreach ($remaining_filter as $one_filter_opt) {
+                                    echo "<li";
+                                    if (in_array($one_filter_opt, $selectedOption)) {
+                                        //height light here
+                                        echo ' class="buxian"';
+                                    }
+
+                                    echo '><a onclick="filter_select(' . "'" . $key . "'" . ',' . "'" . $one_filter_opt . "'" . ')">'
+                                    . $filter_opt_translation[$one_filter_opt]
+                                    . "</a></li>\n";
+                                }
+                            } else {
+                                echo "<li";
+                                if (in_array($one_filter_opt, $selectedOption)) {
+                                    //height light here
+                                    echo ' class="buxian"';
+                                }
+
+                                echo '><a onclick="filter_select(' . "'" . $key . "'" . ',' . "'" . $remaining_filter . "'" . ')">'
+                                . $filter_opt_translation[$remaining_filter]
+                                . "</a></li>\n";
+                            }
+                            echo '</ul></div>';
+                        }
+                        ?>
+                    </li>
+                </ul>
+            </div>
+        </div>	
+    </div>
+    <div class="zong" style="margin-top:20px;">
+        <div class="shang">
+            <div class="tou">
+                <div class="zhuan">专属我的DIY行程</div>
+                <div class="shuyu">
+                    我已经安排 <input name="" type="text" style=" width:43px; height:23px; border:1px solid #dcd8d8;"> 行程
+                </div>
+            </div>	
+            <div class="bao">
+                <ul class="anpai">
+                    <li class="shijian hidden_tag">
+                        <p><a>时间&nbsp;&nbsp;&nbsp;</a><a class='mouse_pointer' onclick='removeTag("month", 0)'>X</a></p>
+                        <p><a class="tag_value">七月 八月</a></p>
+                    </li>
+                    <li class="tianshu hidden_tag">
+                        <p><a>时长&nbsp;&nbsp;&nbsp;</a><a class='mouse_pointer' onclick='removeTag("duration", 0)'>X</a></p>
+                        <p><a class="tag_value">3-4天</a></p>
+                    </li>
+                    <li class="quyu hidden_tag">
+                        <p><a>区域&nbsp;&nbsp;&nbsp;</a><a class='mouse_pointer' onclick='removeTag("region", 1)'>X</a></p>
+                        <p><a class="tag_value">美东</a></p>
+                    </li>
+                    <li id="qishi" class="qizhi hidden_tag">
+                        <p><a>起始&nbsp;&nbsp;&nbsp;</a><a class='mouse_pointer' onclick='removeTag("startCity", 2)'>X</a></p>
+                        <p><a class="tag_value">旧金山</a></p>
+                    </li>
+                    <li class="xianlu hidden_tag">
+                        <p><a>结束&nbsp;&nbsp;&nbsp;</a><a class='mouse_pointer' onclick='removeTag("endCity", 2)'>X</a></p>
+                        <p><a class="tag_value">洛杉矶</a></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="luo">
+            <div class="shan">
+                <div class="ji">洛杉矶深度游</div>
+                <div class="ben">
+                    D1洛杉矶&nbsp;&nbsp; >>&nbsp;&nbsp; D2拉斯维加斯 >>&nbsp;&nbsp; D3洛杉矶
+
+                </div>
+                <div class="shanchu"><a href="">删除</a></div>
+            </div>
+            <div class="shan">
+                <div class="santian">3天</div>
+                <div class="Atuan">A团：洛杉矶-拉斯维加斯-洛杉矶&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$100</div>
+                <div class="chakan"><a href="">快速查看</a></div>
+            </div>
+            <div class="shan">
+                <div class="santian">4天</div>
+                <div class="Atuan">B团：洛杉矶-拉斯维加斯-洛杉矶&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$100</div>
+                <div class="chakan"><a href="">快速查看</a></div>
+            </div>
+            <div class="shan">
+                <div class="santian">5天</div>
+                <div class="Atuan">C团：洛杉矶-拉斯维加斯-洛杉矶&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$100</div>
+                <div class="chakan"><a href="">快速查看</a></div>
+            </div>
+            <div class="jia">
+                <div class="liren">
+                    <div class="zongjia">总价：</div>
+                    <div class="qian">$789</div>
+                </div>
+                <input type="submit" value=" " class="dingzhi">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="wan">
+        <!-- sort bar -->
+        <div class="mei">
+            <table width="755" height="40" style=" text-align:center;background:#43b3cb;">
+                <tr class="renpi">
+                    <td class="ren"><a onclick="sort_list(0)">人气</a></td>
+                    <td class="pingjia"><a onclick="sort_list(1)">评价</a></td>
+                    <td class="tianshang"><a onclick="sort_list(3)">天数</a></td>
+                    <td><a onclick="sort_list(2)">价格</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="http://cdn.xiyouus.com/img/baitiao.png"></td>
+                    <td class="cjituan"><a href="">出团日期</a></td>
+                    <td><a href="">上一页1/10下一页</a></td>
+                </tr>
+            </table>
+        </div>
+        <!-- sort bar -->
+        <!-- product list -->
+        <?php
+        //implement link to product detail page
+        foreach ($page_product_content as $each_product) {
+            //TODO front-end display of each product
+            //section start
+            echo '<div class="shen">'
+            . '<div class="genj">';
+
+            //TODO display actual image
+            echo '<div class="du pull-left"><a href="/product/query/detail/' . $each_product['product_id'] . '"><img src="http://cdn.xiyouus.com/img/shan.jpg"></a></div>';
+
+            //TODO display perfect matching tag dynamically
+            echo '<div class="wanmei"><img src="http://cdn.xiyouus.com/img/wanmei.png"></div>';
+
+            echo '<div class="meidong pull-left">'
+            . '<div class="dink">' . $each_product['title'] . '</div>';
+
+            //TODO dynamically market special
+            echo '<div class="jichang">'
+            . '<div class="jiesong pull-left">'
+            . '<div class="jijie pull-left"><a>机场接送</a></div>'
+            . '<div class="jijie pull-right"><a>酒店预定</a></div>'
+            . '</div>';
+
+            echo '<div class="yibai pull-right">
+                            <span style="font-size:16px; font-weight:bold; color:#fc0214; margin-right:25px;">$' . $each_product['low_price'] / 100 . '起</span>
+                    </div>
+                </div>';
+
+            echo '<div class="zi">' . $each_product['abstract'] . '</div>';
+            echo '</div>'; // '<div class="meidong pull-left">'
+            //TODO dynamically mark special
+            echo '<ul class="xue">
+                    <li><a href=""><img src="http://cdn.xiyouus.com/img/you.jpg"> 优惠券劵</a></li>
+                    <li><a href=""><img src="http://cdn.xiyouus.com/img/xue.jpg"> 学生九折</a></li>
+                    <li><a href=""><img src="http://cdn.xiyouus.com/img/shu.jpg"> 暑期特价</a></li>
+                    <li><a href=""><img src="http://cdn.xiyouus.com/img/qi.jpg"> 自由退换</a></li>
+                </ul>
+            </div>'; // </div> for class genj
+            //TODO dynamically create trip info
+            echo '<ul class="hui">
+                    <li><a href="">出团日期：2014-05-01~2014-08-01 每天出团 </a></li>
+                    <li><a href="">行程：四天</a></li>
+                    <li><a href="">出发地：纽约</a></li>
+                    <li style="border:0px;"><a href="">离团地：纽约</a></li>
+                </ul>';
+
+            echo '</div>';
+        }
+        ?>
+        <!-- product list -->
+        <!-- page navigation -->
+        <div class='row page_row'>
+            <span class='fl'>
+                <?php
+                if ($p > 1) {
+                    //not the first page
+                    echo '<a class ="page_opt" onclick="page_change(-1)">'
+                    . "上一页"
+                    . "</a>";
+                }
+
+                //default display + - 3 pages / 6 pages in total
+                $startPage = max($p - 3, 1); //minimum starts with first page
+                $endPage = min($startPage + 6, $num_page);
+                for ($p_i = $startPage; $p_i <= $endPage; $p_i++) {
+                    echo '<a class = "page_opt';
+                    if ($p_i == $p) {
+                        echo ' active_page">'; //highlight the current page
+                    } else {
+                        echo '" onclick="page_change("' . $p . '">';
+                    }
+                    echo $p
+                    . '</a>';
+                }
+
+                if ($p < $num_page) {
+                    //not the last page
+                    echo '<a class ="page_opt" onclick="page_change(0)">'
+                    . "下一页"
+                    . "</a>";
+                }
+                ?>
+            </span>
+        </div>
+        <!-- page navigation -->
+    </div>
+</div>
+
+
+
+<div class="you pull-right">
+    <div class="youtian">
+        <div class="jiyou">西游无忧 迹遍天下</div>
+        <ul class="bijia">
+            <li><a href="">低价保证 ， 差额赔款</a></li>
+            <li><a href="">低价保证 ， 差额赔款</a></li>
+            <li><a href="">低价保证 ， 差额赔款</a></li>
+            <li><a href="">低价保证 ， 差额赔款</a></li>
+            <li><a href="">低价保证 ， 差额赔款</a></li>
+        </ul>
+    </div>
+    <div class="youtian" style="margin-top:15px;">
+        <div class="jiyou" style="background:#43b3cb;">热门推荐</div>
+        <ul class="chengmen">
+            <li>
+                <div class="shendu"><img src="http://cdn.xiyouus.com/img/tiananmen.jpg"></div>
+                <div class="wuri">
+                    <div class="eryou">北京深度纯玩五日游</div>
+                    <div class="jhewiu">
+                        <div style="font-size:16px; float:left; color:#ff6600;">1320元起</div>
+                        <div class="sheng">240元</div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="shendu"><img src="http://cdn.xiyouus.com/img/tiananmen.jpg"></div>
+                <div class="wuri">
+                    <div class="eryou">北京深度纯玩五日游</div>
+                    <div class="jhewiu">
+                        <div style="font-size:16px; float:left; color:#ff6600;">1320元起</div>
+                        <div class="sheng">240元</div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="shendu"><img src="http://cdn.xiyouus.com/img/tiananmen.jpg"></div>
+                <div class="wuri">
+                    <div class="eryou">北京深度纯玩五日游</div>
+                    <div class="jhewiu">
+                        <div style="font-size:16px; float:left; color:#ff6600;">1320元起</div>
+                        <div class="sheng">240元</div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="shendu"><img src="http://cdn.xiyouus.com/img/tiananmen.jpg"></div>
+                <div class="wuri">
+                    <div class="eryou">北京深度纯玩五日游</div>
+                    <div class="jhewiu">
+                        <div style="font-size:16px; float:left; color:#ff6600;">1320元起</div>
+                        <div class="sheng">240元</div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="youtian" style="margin-top:15px;">
+        <div class="jiyou">旅游顾问</div>
+        <ul class="bijia">
+            <li><a href="">低价保证 ， 差额赔款</a></li>
+            <li><a href="">低价保证 ， 差额赔款</a></li>
+            <li><a href="">低价保证 ， 差额赔款</a></li>
+            <li><a href="">低价保证 ， 差额赔款</a></li>
+            <li><a href="">低价保证 ， 差额赔款</a></li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    $('.di li').mouseover(function() {
+        var el_index = $(this).parent().find('li').index(this);
+        $(this).parent().find('li').removeClass('on');
+        $(this).addClass('on');
+        $(this).parent().parent().parent().find(".jue").hide();
+        $(this).parent().parent().parent().find(".jue").eq(el_index).show();
+
+    });
+</script>

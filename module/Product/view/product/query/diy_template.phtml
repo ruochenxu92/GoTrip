@@ -1,0 +1,399 @@
+<div class="zuo pull-left">
+    <!--filter section-->
+    <div class="zong">
+        <div class="tou">
+            <!--<div class="ziran">四步DIY</div>-->
+            <div class="zhuan">西游四步DIY</div>
+            <!--            <div class="jingdian">
+                            <input name="" type="text" placeholder='输入景点' class="jing xiyou_tag_gray" />
+                            <input type="submit" value=" " class="fangda" />
+                        </div>-->
+        </div>	
+        <div class="qie">
+            <div class="sui">
+                <ul class="list-unstyled di">
+                    <li class="shijian">
+                        <div class="yi"><a class="tag_value">第一步：时间</a></div>
+                    </li>
+                    <li class="quyu">
+                        <div class="er"><a class="tag_value">第二步：区域</a></div>
+                    </li>
+                    <li class="qizhi">
+                        <div class="san"><a class="tag_value">第三步：起止</a></div>
+                    </li>
+                    <li class="xianlu">
+                        <div class="si"><a class="tag_value">第四步：线路</a></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="bian">
+                <ul class="jue">
+                    <li>
+                        <?php
+                        \Product\Util\ServiceUtil::generateDIYFilter($filter_config, array('month', 'duration_range'), $product_list, $remaining_opts);
+                        ?>
+                    </li>
+                </ul>
+                <ul class="jue" style=" display:none;">
+                    <li>
+                        <?php
+                        \Product\Util\ServiceUtil::generateDIYFilter($filter_config, array('region'), $product_list, $remaining_opts);
+                        ?>
+                    </li>
+                </ul>
+                <ul class="jue" style=" display:none;">
+                    <li>
+                        <?php
+                        \Product\Util\ServiceUtil::generateDIYFilter($filter_config, array('startCity', 'endCity'), $product_list, $remaining_opts);
+                        ?>
+                    </li>
+                </ul>
+                <ul class="jue" style=" display:none;">
+                    <li class="tradi_filter_opts">
+                        <?php
+                        \Product\Util\ServiceUtil::generateDIYFilter($filter_config, array('theme'), $product_list, $remaining_opts);
+                        ?>
+                    </li>
+                    <li class="diy_filter_opts diy_notice">
+                        您可以开始在DIY栏进行选择
+                    </li>
+                </ul>
+            </div>
+        </div>	
+    </div>
+    <!--filter section-->
+    <!--mode switch-->
+    <div class="zong_row">
+        <div class="mode_tag">
+            <ul class="list-unstyled mode_di">
+                <li>
+                    <div class="diy_tag" onclick="select_diy_mode()"><a><strong>帮您DIY</strong></a></div>
+                </li>
+                <li>
+                    <div class="tradi_tag" onclick="select_traditional_mode()"><a><strong>精品团搜索</strong></a></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--mode switch-->
+    <!--diy section-->
+    <div class="zong diy-content">
+        <div class="shang">
+            <div class="tou">
+                <div class="zhuan">专属我的DIY行程</div>
+                <div class="shuyu xiyou_tag_gray">
+                    <?php
+                    $total_duration = 0;
+                    $filter_tranlation = $filter_config['zh'];
+                    if ($diy_combo['result']) {
+                        $total_duration = $diy_combo['content']['total_duration'];
+                        if ($total_duration > 0) {
+                            if ($total_duration > 10) {
+                                $total_duration = 10;
+                            }
+                            echo "您已经安排 "
+                            . '<input name="" type="text" value="' . $filter_tranlation['duration'][$total_duration] . '" style="width:58px; height:23px; border:1px solid #dcd8d8;text-align:center;" readonly>'
+                            . " 行程";
+                        }
+                    }
+                    if ($total_duration == 0) {
+                        echo "您还未安排行程";
+                    }
+                    ?> 
+                </div>
+            </div>	
+        </div>
+        <?php
+        $total_price = 0;
+        $cur_stop = 1;
+        $option_available = false;
+//        var_dump($diy_combo);
+        if ($diy_combo['result'] && !$diy_combo['content']['is_first_round']) {
+            //$filter_tranlation = $filter_config['zh']; //already defined in the duration section above
+            //first echo out previously selected products
+            $total_price = $diy_combo['content']['total_price'];
+            $selected_product = $diy_combo['content']['selected_product'];
+            $theme_selected = $diy_combo['content']['selected_theme'];
+            for ($i = 0; $i < count($selected_product); $i++) {
+                $cur_stop = \Product\Util\ServiceUtil::generateDIYStopSign($cur_stop);
+                $a_selected_product = $selected_product[$i];
+                echo '<div class="luo">'
+                . '<div class="shan">'
+                . '<div class="ji">' . $filter_tranlation['theme'][$theme_selected[$i]] . '</div>'
+                . '<div class="ben">'
+                . $a_selected_product['abstract']
+                . '</div>'
+                . '<div class="shanchu" onclick="filter_remove(' . "'product_selected'," . $a_selected_product['product_id'] . ')"><a>删除</a></div>'
+                . '</div>'
+                . '</div>';
+            }
+
+            $combo_option = $diy_combo['content']['diy_combo'];
+            if (count($combo_option) > 0) {
+                $option_available = true;
+                for ($i = 0; $i < count($combo_option); $i++) {
+                    $product_arr = $combo_option[$i]['product'];
+                    $cur_stop = \Product\Util\ServiceUtil::generateDIYStopSign($cur_stop);
+                    echo '<div class="luo">'
+                    . '<div class="shan">'
+                    . '<div class="ji">' . $filter_tranlation['theme'][$theme_selected[$i]] . '</div>'
+                    . '<div class="ben">'
+                    . '请选择本站行程'
+                    . '</div>'
+                    . '<div class="shanchu" onclick="filter_remove(' . "'theme'," . $theme_selected[$i] . ')"><a>删除</a></div>'
+                    . '</div>';
+                    $cnt = 'A';
+                    foreach ($product_arr as $a_diy_product_opt) {
+                        if ($cnt < 'Z') {
+                            echo '<div class = "shan">'
+                            . '<div class = "santian">' . $filter_tranlation['duration'][$a_diy_product_opt['duration']] . '</div>'
+                            . '<div class = "Atuan">' . $cnt . '团:' . $a_diy_product_opt['abstract'] . '</div>'
+                            . '<div class="diy_opt_price">$' . $a_diy_product_opt['low_price'] / 100 . '</div>'
+                            . '<div class = "chakan"><img src="http://cdn.xiyouus.com/img/cheng.png" height="24" width="28"></div>'
+                            . '<div class = "select_diy" onclick="filter_select(' . "'product_selected'," . $a_diy_product_opt['product_id'] . ')"><a>选择</a></div>'
+                            . '</div>';
+                            $cnt++;
+                        }
+                    }
+                    echo '</div>';
+                }
+            }
+        }
+        ?>
+        <?php
+        $display_diy_filter_opts = false;
+        if (!$diy_combo['result']) {
+            $display_diy_filter_opts = true;
+        }else if ($diy_combo['content']['is_first_round'] || count($selected_product) == count($theme_selected)) {
+            $display_diy_filter_opts = true;
+        }
+        if ($display_diy_filter_opts) {
+            $cur_stop = \Product\Util\ServiceUtil::generateDIYStopSign($cur_stop);
+            $diy_remain = $remaining_opts;
+            $diy_remain['theme'] = $diy_combo['content']['theme_available'];
+            $no_result_string = '<div class="diy_no_result">'
+                    . '根据您的选择没有可选的下一站行程中心'
+                    . '</div>';
+            //generate no result string
+            echo ' <div class="bian">
+                    <ul class="jue">
+                    <li>';
+            \Product\Util\ServiceUtil::generateDIYFilter($filter_config, array('theme'), $product_list, $diy_remain, false, false, $no_result_string);
+            echo '</li>
+                </ul>
+            </div>';
+        }
+//        else{
+//            $no_result_string = '<div class="diy_no_result">'
+//                    . '对不起，我们找不到符合您选择的DIY行程'
+//                    . '</div>';
+//            echo ' <div class="bian">
+//                    <ul class="jue">
+//                    <li>';
+//            echo $no_result_string;
+//            echo '</li>
+//                </ul>
+//            </div>';
+//        }
+        ?>
+        <div class="jia">
+            <div class="liren">
+                <div class="zongjia">总价：</div>
+                <div class="qian">$<?php echo $total_price / 100; ?></div>
+            </div>
+            <a class="dingzhi mouse_pointer" onclick="launch_diy_result()"></a>
+        </div>
+    </div>
+    <!--diy section-->
+    <div class="wan">
+        <!-- sort bar -->
+        <div class="mei">
+            <table width="755" height="40" style=" text-align:center;background:#43b3cb;">
+                <tr class="sort_tb_row">
+                    <td><a onclick="sort_list(0)">人气</a><span class="sort_down">&nbsp;&nbsp;</span></td>
+                    <td><a onclick="sort_list(1)">评价</a><span class="sort_down">&nbsp;&nbsp;</span></td>
+                    <td><a onclick="sort_list(2)">天数</a><span class="sort_down">&nbsp;&nbsp;</span></td>
+                    <td><a onclick="sort_list(3)">价格</a><span class="sort_down">&nbsp;&nbsp;</span></td>
+                    <!--<td class="cjituan"><a href="">出团日期</a></td>-->
+                    <td><a <?php
+                        if ($p > 1) {
+                            echo 'onclick="page_change(-1)"';
+                        }
+                        ?>>上一页</a></td>
+                    <td><a <?php
+                        if ($p < $num_page) {
+                            echo 'onclick="page_change(0)"';
+                        }
+                        ?>>下一页</a></td>
+                </tr>
+            </table>
+        </div>
+        <!-- sort bar -->
+        <!-- product list -->
+        <?php
+        //$filter_tranlation = $filter_config['zh']; //already defined in the duration section above
+        foreach ($page_product_content as $each_product) {
+            //front-end display of each product
+            //section start
+            echo '<div class="shen">'
+            . '<div class="genj">';
+
+            //display actual image
+            $imgUrl = \Product\Util\ServiceUtil::generateProductImgUrl($each_product['product_id'], 'thumb', false);
+            echo '<div class="du pull-left"><a href="/product/query/detail/' . $each_product['product_id'] . '">'
+            . '<img src="'
+            . $imgUrl
+            . '" height="160px" width="200px"></a></div>';
+
+            //TODO display perfect matching tag dynamically
+            //echo '<div class="wanmei"><img src="http://cdn.xiyouus.com/img/wanmei.png"></div>';
+
+            echo '<div class="meidong pull-left">'
+            . '<div class="dink"><a class="mouse_pointer" href="/product/query/detail/' . $each_product['product_id'] . '">' . $each_product['title'] . '</a></div>';
+
+            //dynamically market special
+            echo '<div class="special_sect">'
+            . '<div class="special_item_sect pull-left">';
+            $special_arr = $each_product['special'];
+            if (count($special_arr) > 1) {
+                foreach ($special_arr as $aSpecial) {
+                    if ($aSpecial > 0 && isset($filter_tranlation['special'][$aSpecial])) {
+                        echo '<div class="special_item pull-left"><a>'
+                        . $filter_tranlation['special'][$aSpecial]
+                        . '</a></div>';
+                    }
+                }
+            }
+            echo '</div>';
+            echo '<div class="yibai pull-right">
+                        <span style="font-size:16px; font-weight:bold; color:#fc0214; margin-right:25px;">$' . $each_product['low_price'] / 100 . '起</span>
+                    </div>
+                </div>';
+
+            echo '<div class="zi">' . $each_product['abstract'] . '</div>';
+            echo '</div>'; // '<div class="meidong pull-left">'
+            //dynamically mark promo
+            echo '<ul class="xue">';
+            $promo_arr = $each_product['promo'];
+            if (count($promo_arr) > 1) {
+                foreach ($promo_arr as $aPromo) {
+                    if ($aPromo > 0 && isset($filter_tranlation['promo'][$aPromo])) {
+                        echo '<li><a><img src="'
+                        . $filter_tranlation['promo_url'][$aPromo]
+                        . '">';
+                        echo $filter_tranlation['promo'][$aPromo]
+                        . '</a></li>';
+                    }
+                }
+            }
+            echo '</ul></div>'; // </div> for class genj
+            //dynamically create trip info
+            echo '<table class="hui"><tr>'
+            . '<td><a>出团日期：';
+            //construct start date
+            $start_date = explode('/', $each_product['start_date']);
+            $depart_weekday = explode('/', $each_product['depart_weekday']);
+            echo '<select>';
+            for ($i = 0; $i < count($start_date); $i++) {
+                if ($i == 0) {
+                    echo '<option selected="selected">';
+                } else {
+                    echo '<option>';
+                }
+                echo $start_date[$i];
+                echo " ";
+                $depart_weekday_arr = explode(";", $depart_weekday[$i]);
+                foreach ($depart_weekday_arr as $aDepartWeekday) {
+                    if(isset($filter_tranlation['depart_weekday'][$aDepartWeekday]))
+                        echo $filter_tranlation['depart_weekday'][$aDepartWeekday] . " ";
+                }
+                echo "</option>";
+            }
+            echo '</select>';
+            echo '</a></td>'
+            . '<td><a>行程：' . $filter_tranlation['duration'][$each_product['duration']] . '</a></td>'
+            . '<td><a>出发：' . $filter_tranlation['place'][$each_product['startCity']] . '</a></td>'
+            . '<td style="border:0px;"><a>离团：' . $filter_tranlation['place'][$each_product['endCity']] . '</a></td>'
+            . '</tr></table>';
+            echo '</div>';
+        }
+        ?>
+        <!-- product list -->
+        <!-- page navigation -->
+        <div class="ceng">
+            <ul class="lou">
+                <?php
+                echo '<li';
+                if ($p > 1) {
+                    //not the first page
+                    echo ' onclick="page_change(-1)"';
+                }
+                echo '><a>'
+                . '<img src="http://cdn.xiyouus.com/img/fan.jpg">'
+                . "</a></li>";
+
+//default display + - 3 pages / 6 pages in total
+                $startPage = max($p - 3, 1); //minimum starts with first page
+                $endPage = min($startPage + 6, $num_page);
+                for ($p_i = $startPage; $p_i <= $endPage; $p_i++) {
+                    echo '<li class="';
+                    if ($p_i == $p) {
+                        echo 'active_botton'; //highlight the current page
+                    }
+                    echo '"onclick="page_change(' . $p_i . ')"><a>'
+                    . $p_i
+                    . '</a></li>';
+                }
+                
+                if($endPage < $num_page){
+                    echo '<li class="';
+                    echo '"onclick="page_change(' . $num_page . ')"><a>'
+                    . $num_page
+                    . '</a></li>';
+                }
+
+                if ($p < $num_page) {
+                    echo '<li';
+                    //not the last page
+                    echo ' onclick="page_change(0)"';
+                    echo '><a>'
+                    . '<img src="http://cdn.xiyouus.com/img/fan2.jpg">'
+                    . "</a><li>";
+                }
+                ?>
+            </ul>
+            <!--<div class="dso">到 <input name="" type="text" style=" width:40px; height:32px; border-radius:0.4em; border:0px;"> 页</div>-->
+            <!--<input type="submit" style=" width:60px; height:38px; color:#FFFFFF; border-radius:0.4em; border:0px; float:right; margin-right:20px; background:#29a2cd;" value="确认">-->
+        </div>
+        <!-- page navigation -->
+    </div>
+</div>
+
+<div class="you pull-right">
+    <div class="youtian">
+        <div class="jiyou">西游无忧 迹遍天下</div>
+        <ul class="bijia">
+            <li><a>低价保证 ， 差额赔款</a></li>
+            <li><a>低价保证 ， 差额赔款</a></li>
+            <li><a>低价保证 ， 差额赔款</a></li>
+            <li><a>低价保证 ， 差额赔款</a></li>
+        </ul>
+    </div>
+    <div class="youtian" style="margin-top:15px;">
+        <div class="jiyou" style="background:#43b3cb;">热门推荐</div>
+        <ul class="chengmen">
+            <li>
+                <a href="/product/query/detail/1077">
+                <div class="shendu"><img src="/img/product/1077/thumb.jpg" width="182px" height="130px"></div>
+                <div class="wuri">
+                    <div class="eryou">黃石公园 - 羚羊彩穴 - 太浩湖 - 17里湾7天</div>
+                    <div class="jhewiu">
+                        <div style="font-size:16px; float:left; color:#ff6600;">$333.5起</div>
+                        <div class="sheng">100</div>
+                    </div>
+                </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
