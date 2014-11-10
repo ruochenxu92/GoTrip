@@ -7,6 +7,8 @@
         <!-- Le styles -->
         <?php
         echo $this->headLink(array('rel' => 'shortcut icon', 'href' => 'http://cdn.xiyouus.com/img/favicon.png'))
+                ->prependStylesheet('/style/style.css')
+                ->prependStylesheet('http://cdn.xiyouus.com/style/common.css')
                 ->prependStylesheet('http://cdn.xiyouus.com/css/bootstrap.min.css');
         ?>
 
@@ -22,18 +24,6 @@
         <![endif]-->
     </head>
     <body>
-        <!--navbar-->
-        <div class="dao" style="align:center;">
-            <div class="hang clearfix">
-<!--  //////////////////////////////////////              TODO design logo-->
-                <div class="logo pull-left"><a href="/"><img src="" /></a></div>
-                <ul class="shou pull-left">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/product/query/diy/1">Planner</a></li>
-                </ul>
-            </div>
-        </div>
-        <!--navbar-->
         <!--main-->
         <div class="mainContainer">
             <?php echo $this->content; ?>

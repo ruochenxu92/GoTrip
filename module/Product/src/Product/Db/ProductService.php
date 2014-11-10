@@ -4,12 +4,10 @@ namespace Product\Db;
 
 use Zend\Db\Adapter\Adapter as DbAdapter;
 use Zend\Db\Sql\Sql;
-use Product\Model\ProductList;
 use Product\Model\Product as ProductModel;
 use Product\Model\ProductInfo as ProductInfoModel;
 use Cache\Db\CacheService;
 use Product\Util\ErrorType;
-use Product\Util\ServiceUtil;
 
 class ProductService {
 
