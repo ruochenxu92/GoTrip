@@ -17,15 +17,14 @@ class IndexController extends AbstractActionController {
 
     public function indexAction() {
         $this->layout()->setVariable('service_locator', $this->getServiceLocator());
-        $config = $this->serviceLocator->get('config');
-        $cache = $this->serviceLocator->get('cache');
-        $app_version = $config['app_version'];
-        if ($app_version['DEBUG']) {
-            $index_serice = $this->getServiceLocator()->get('index_service');
-            $index_serice->index_cache_generate($config,$cache);
-        }
-        $res = $cache->read_cache('index');
-        if($res['result'])
-            return array('html'=>$res['content']);
+        $index_service = $this->getServiceLocator()->get('index_service');
+        $res = $index_service->read();
+        
+        $view = new ViewModel();
+        $view->setTerminal(true);
+        $view->setTemplate('layout/layout');
+        $view->setVariables(array('content' => $res['content'], 'service_locator'=>$this->getServiceLocator()));
+        return $view;
+
     }
 }
